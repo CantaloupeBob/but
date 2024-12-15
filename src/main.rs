@@ -74,46 +74,50 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
                 writeln!(&mut markdown, "**Note:** {}", note)?;
             }
 
-            writeln!(&mut markdown, "### Deployed contracts")?;
-            writeln!(&mut markdown)?;
-            writeln!(&mut markdown, "| Name | Address |  Tx  |")?;
-            writeln!(&mut markdown, "| ---- | ------- | ---- |")?;
-            for create_tx in create_txs {
-                writeln!(
-                    &mut markdown,
-                    "| `{}` | [`{}`]({}) | [`{}`]({}) |",
-                    create_tx.contract_name.clone().unwrap_or_default(),
-                    create_tx.contract_address,
-                    contract_explorer_link(create_tx),
-                    create_tx.hash,
-                    tx_explorer_link(create_tx)
-                )?;
+            if !create_txs.is_empty() {
+                writeln!(&mut markdown, "### Deployed contracts")?;
+                writeln!(&mut markdown)?;
+                writeln!(&mut markdown, "| Name | Address |  Tx  |")?;
+                writeln!(&mut markdown, "| ---- | ------- | ---- |")?;
+                for create_tx in create_txs {
+                    writeln!(
+                        &mut markdown,
+                        "| `{}` | [`{}`]({}) | [`{}`]({}) |",
+                        create_tx.contract_name.clone().unwrap_or_default(),
+                        create_tx.contract_address,
+                        contract_explorer_link(create_tx),
+                        create_tx.hash,
+                        tx_explorer_link(create_tx)
+                    )?;
+                }
             }
 
-            writeln!(&mut markdown)?;
-            writeln!(&mut markdown, "### Calls")?;
-            writeln!(&mut markdown)?;
-            writeln!(&mut markdown, "| Name | Address | Function | Args |  Tx  |")?;
-            writeln!(&mut markdown, "| ---- | ------- | -------- | ---- | ---- |")?;
-            for call_tx in call_txs {
-                writeln!(
-                    &mut markdown,
-                    "| `{}` | [`{}`]({}) | `{}` | <ol>{}</ol> | [`{}`]({}) |",
-                    call_tx.contract_name.clone().unwrap_or_default(),
-                    call_tx.contract_address,
-                    contract_explorer_link(call_tx),
-                    call_tx.function.clone().unwrap_or_default(),
-                    call_tx
-                        .arguments
-                        .clone()
-                        .unwrap_or_default()
-                        .iter()
-                        .map(|arg| format!("<li><code>{}</code></li>", arg))
-                        .collect::<Vec<_>>()
-                        .join(""),
-                    call_tx.hash,
-                    tx_explorer_link(call_tx)
-                )?;
+            if !call_txs.is_empty() {
+                writeln!(&mut markdown)?;
+                writeln!(&mut markdown, "### Calls")?;
+                writeln!(&mut markdown)?;
+                writeln!(&mut markdown, "| Name | Address | Function | Args |  Tx  |")?;
+                writeln!(&mut markdown, "| ---- | ------- | -------- | ---- | ---- |")?;
+                for call_tx in call_txs {
+                    writeln!(
+                        &mut markdown,
+                        "| `{}` | [`{}`]({}) | `{}` | <ol>{}</ol> | [`{}`]({}) |",
+                        call_tx.contract_name.clone().unwrap_or_default(),
+                        call_tx.contract_address,
+                        contract_explorer_link(call_tx),
+                        call_tx.function.clone().unwrap_or_default(),
+                        call_tx
+                            .arguments
+                            .clone()
+                            .unwrap_or_default()
+                            .iter()
+                            .map(|arg| format!("<li><code>{}</code></li>", arg))
+                            .collect::<Vec<_>>()
+                            .join(""),
+                        call_tx.hash,
+                        tx_explorer_link(call_tx)
+                    )?;
+                }
             }
 
             print!("{}", markdown);

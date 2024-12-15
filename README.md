@@ -5,7 +5,7 @@
 ## Installation
 
 ```sh
-$ cargo install https://github.com/0xdapper/but
+$ cargo install --git https://github.com/0xdapper/but
 ```
 
 ## Usage

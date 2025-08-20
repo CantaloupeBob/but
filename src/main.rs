@@ -138,7 +138,7 @@ fn chain_id_to_explorer(chain_id: &str) -> String {
     match chain_id {
         0xa4b1 => "https://arbiscan.io",
         8453 => "https://basescan.org",
-        999 => "https://hyperevmscan.io/",
+        999 => "https://hyperevmscan.io",
         1 => "https://etherscan.io",
         _ => panic!("Unknown chain id: {}", chain_id),
     }
